@@ -28,8 +28,7 @@ VALUES('Alex', '2024-02-07'),
 INSERT INTO ticket(user_id,  ticket_type, creation_date)
 VALUES(1, 'DAY', '2024-02-01'),
       (2, 'WEEK', '2024-02-02'),
-      (3, 'DAY', '2024-01-28'),
-      (1, 'MONTH', '2024-01-30');
+      (3, 'DAY', '2024-01-28');
 
 
 SELECT u.id,
