@@ -3,10 +3,13 @@ package model.dao;
 import model.entities.Ticket;
 
 
+import java.sql.SQLException;
+
+
 public interface TicketDao {
-    Ticket getTicketById(long id);
-    Ticket getTicketByUserId(long userId);
-    void save(Ticket ticket);
-    void update(Ticket ticket);
-    void delete(long id);
+    Ticket getTicketById(long id) throws SQLException;
+    Ticket getTicketByUserId(long userId) throws SQLException;
+    void save(Ticket ticket) throws SQLException;
+    void update(Ticket ticket) throws SQLException;
+    void delete(long id) throws SQLException;
 }
