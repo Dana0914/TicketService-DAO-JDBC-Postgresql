@@ -2,12 +2,11 @@ package model.dao;
 
 import model.entities.User;
 
-import java.sql.SQLException;
 
 
 public interface UserDao {
-    User getUserById(long id) throws SQLException;
-    void save(User user) throws SQLException;
-    void update(User user) throws SQLException;
-    void delete(long id) throws SQLException;
+    void findById(long id);
+    void save(User user);
+    void update(User user, long id);
+    void delete(long id);
 }
