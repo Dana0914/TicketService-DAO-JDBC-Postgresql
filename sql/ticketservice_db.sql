@@ -31,12 +31,6 @@ VALUES(1, 'DAY', '2024-02-01'),
       (3, 'DAY', '2024-01-28');
 
 
-SELECT u.id,
-       u.username as name,
-       u.creation_date as date
-FROM users u
-JOIN ticket t ON u.id = t.user_id
-
 
 
 
