@@ -15,7 +15,7 @@ public class UserDaoImpl implements UserDao {
         this.sessionFactory = sessionFactory;
     }
     @Override
-    public void findById(long id) {
+    public void findUserById(long id) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             User user = session.get(User.class, id);
@@ -58,8 +58,8 @@ public class UserDaoImpl implements UserDao {
     public void delete(long id) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            session.createQuery("DELETE FROM User u WHERE u.id = :id")
-                    .setParameter("id", id).executeUpdate();
+            session.createNativeQuery("DELETE FROM users WHERE id = ?1")
+                    .setParameter(1, id).executeUpdate();
             session.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();

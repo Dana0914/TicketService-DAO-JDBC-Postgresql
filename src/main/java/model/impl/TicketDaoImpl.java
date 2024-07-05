@@ -6,7 +6,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 
-
 public class TicketDaoImpl implements TicketDao {
     SessionFactory sessionFactory;
     public TicketDaoImpl(SessionFactory sessionFactory) {
@@ -14,7 +13,7 @@ public class TicketDaoImpl implements TicketDao {
     }
 
     @Override
-    public void findById(long id) {
+    public void findTicketById(long id) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
             Ticket ticket = session.get(Ticket.class, id);
@@ -25,6 +24,7 @@ public class TicketDaoImpl implements TicketDao {
         }
 
     }
+
 
     @Override
     public void findByUserId(long userId) {
@@ -69,15 +69,28 @@ public class TicketDaoImpl implements TicketDao {
     }
 
     @Override
-    public void delete(long id) {
+    public void deleteByTicketId(long id) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            session.createQuery("delete from Ticket t where t.id = :id")
-                    .setParameter("id", id).executeUpdate();
+            session.createNativeQuery("DELETE FROM ticket where id = ?1")
+                    .setParameter(1, id).executeUpdate();
             session.getTransaction().commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
+    @Override
+    public void deleteByUsertId(long id) {
+        try (Session session = sessionFactory.openSession()) {
+            session.beginTransaction();
+            session.createNativeQuery("DELETE FROM ticket where user_id = ?1")
+                    .setParameter(1, id).executeUpdate();
+            session.getTransaction().commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }
