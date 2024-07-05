@@ -21,7 +21,7 @@ public class User {
     @Column(name = "creation_date")
     private LocalDate creationDate;
     @ToString.Exclude
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     private List<Ticket> tickets;
 
 }
