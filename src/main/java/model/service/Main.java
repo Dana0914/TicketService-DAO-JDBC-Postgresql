@@ -21,24 +21,26 @@ public class Main {
             TicketDao ticketDao = new TicketDaoImpl(sessionFactory);
             UserDao userDao = new UserDaoImpl(sessionFactory);
             User user = new User();
+            userDao.delete(3L);
             user.setUsername("Kai");
             user.setCreationDate(LocalDate.of(2024, 5, 5));
-            userDao.delete(4L);
+
             userDao.save(user);
             userDao.update(user, 3L);
-            userDao.findById(1L);
+            userDao.findUserById(1L);
 
             ticket.setTicketType("WEEK");
-            ticket.setUserId(3L);
+            ticket.setUserId(2L);
             ticket.setCreationDate(LocalDate.now());
             ticket.setId(2L);
-            ticketDao.delete(ticket.getId());
             ticket.setId(2L);
             ticket.setTicketType("YEAR");
             ticketDao.update(ticket);
             ticketDao.save(ticket);
-            ticketDao.findById(1);
-            ticketDao.findByUserId(1);
+            ticketDao.findTicketById(1L);
+            ticketDao.findByUserId(1L);
+            ticketDao.deleteByUsertId(2L);
+
 
         }
     }
