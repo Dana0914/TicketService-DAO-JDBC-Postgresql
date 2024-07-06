@@ -1,6 +1,6 @@
 
 
-CREATE TYPE ticket_type AS ENUM('DAY', 'WEEK', 'MONTH', 'YEAR');
+CREATE TYPE "ticket_type" AS ENUM('DAY', 'WEEK', 'MONTH', 'YEAR');
 
 CREATE TABLE users
 (
