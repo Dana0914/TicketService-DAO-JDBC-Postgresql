@@ -1,31 +1,29 @@
 package model.impl;
 
-import db.DatabaseConnection;
+import db.MyApplicationContextConfiguration;
 import model.dao.UserDao;
 import model.entities.Ticket;
 import model.entities.User;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.sql.*;
 
-
+@Component
 public class UserDaoImpl implements UserDao {
-    static DatabaseConnection db;
-    static Connection con;
+    MyApplicationContextConfiguration ac;
+    Connection con;
+    @Autowired
+    public UserDaoImpl(MyApplicationContextConfiguration ac, Connection con) {
+        this.ac = ac;
+        this.con = con;
 
-    static {
-        try {
-            db = new DatabaseConnection();
-            con = db.getConnection();
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }
     }
-
     @Override
     public User getUserById(long id) throws SQLException {
         con.setAutoCommit(false);
         ResultSet rs;
-        String fetch = "SELECT id, username, creation_date from users WHERE id=?";
+        String fetch = "SELECT * from users WHERE id=?";
         try (PreparedStatement pr = con.prepareStatement(fetch)) {
             Savepoint savepoint = con.setSavepoint("savepoint");
             pr.setLong(1, id);
@@ -49,12 +47,11 @@ public class UserDaoImpl implements UserDao {
     public void save(User user) throws SQLException {
         con.setAutoCommit(false);
         int rowsInserted;
-        String insert = "INSERT INTO users(id, username, creation_date) VALUES(?, ?, ?)";
+        String insert = "INSERT INTO users(username, creation_date) VALUES(?, ?)";
         try (PreparedStatement statement = con.prepareStatement(insert)) {
             Savepoint savepoint = con.setSavepoint("savepoint");
-            statement.setLong(1, user.getId());
-            statement.setString(2, user.getUsername());
-            statement.setDate(3, Date.valueOf(user.getCreationDate()));
+            statement.setString(1, user.getUsername());
+            statement.setDate(2, Date.valueOf(user.getCreationDate()));
             rowsInserted = statement.executeUpdate();
             if (rowsInserted > 0) {
                 System.out.println("A new user was inserted successfully!");
@@ -69,14 +66,15 @@ public class UserDaoImpl implements UserDao {
     }
 
     @Override
-    public void update(User user) throws SQLException {
+    public void update(User user, long id) throws SQLException {
         con.setAutoCommit(false);
         int rowsUpdated;
-        String update = "UPDATE users SET username=? WHERE id=?";
+        String update = "UPDATE users SET username=?, creation_date=? WHERE id=?";
         try (PreparedStatement statement = con.prepareStatement(update)) {
             Savepoint savepoint = con.setSavepoint("savepoint");
             statement.setString(1, user.getUsername());
-            statement.setLong(2, user.getId());
+            statement.setDate(2, Date.valueOf(user.getCreationDate()));
+            statement.setLong(3, id);
             rowsUpdated = statement.executeUpdate();
             if (rowsUpdated > 0) {
                 System.out.println("An existing user was updated successfully!");
