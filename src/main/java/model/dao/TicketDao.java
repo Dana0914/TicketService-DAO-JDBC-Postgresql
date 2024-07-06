@@ -12,4 +12,5 @@ public interface TicketDao {
     void save(Ticket ticket) throws SQLException;
     void update(Ticket ticket) throws SQLException;
     void delete(long id) throws SQLException;
+    void deleteUserId(long id) throws SQLException;
 }
