@@ -1,8 +1,15 @@
 package model.entities;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Objects;
+
+
+@Getter
+@Setter
 
 public class User implements Serializable {
     private long id;
@@ -13,34 +20,12 @@ public class User implements Serializable {
     public User() {
 
     }
-    public User(String username, LocalDate creationDate) {
-        this.username = username;
-        this.creationDate = creationDate;
-    }
-    public long getId() {
-        return id;
-    }
-    public void setId(long id) {
+    public User(long id, String username, LocalDate creationDate) {
         this.id = id;
-    }
-    public String getUsername() {
-        return username;
-    }
-    public void setUsername(String username) {
         this.username = username;
-    }
-    public LocalDate getCreationDate() {
-        return creationDate;
-    }
-    public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
     }
-    public Ticket getTicket() {
-        return ticket;
-    }
-    public void setTicket(Ticket ticket) {
-        this.ticket = ticket;
-    }
+
 
     @Override
     public boolean equals(Object o) {

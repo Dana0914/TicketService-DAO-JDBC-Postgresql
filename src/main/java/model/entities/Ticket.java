@@ -1,9 +1,14 @@
 package model.entities;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.io.Serializable;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.Objects;
+
+@Getter
+@Setter
 
 public class Ticket implements Serializable {
     private long id;
@@ -17,51 +22,11 @@ public class Ticket implements Serializable {
     public Ticket() {
 
     }
-    public Ticket(long userId,TicketType ticketType,LocalDate creationDate) {
-        this.userId = userId;
-        this.ticketType = ticketType;
-        this.creationDate = creationDate;
-    }
-
-    public Ticket(TicketType ticketType) {
-        this.ticketType = ticketType;
-    }
-
-    public Ticket(TicketType ticketType, LocalDate of) {
-        this.ticketType = ticketType;
-        this.creationDate = of;
-    }
-
-
-    public long getId() {
-        return id;
-    }
-    public void setId(long id) {
+    public Ticket(long id, long userId,TicketType ticketType,LocalDate creationDate) {
         this.id = id;
-    }
-    public long getUserId() {
-        return userId;
-    }
-    public void setUserId(long userId) {
         this.userId = userId;
-    }
-    public TicketType getTicketType() {
-        return ticketType;
-    }
-    public void setTicketType(TicketType ticketType) {
         this.ticketType = ticketType;
-    }
-    public LocalDate getCreationDate() {
-        return creationDate;
-    }
-    public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
-    }
-    public User getUser() {
-        return user;
-    }
-    public void setUser(User user) {
-        this.user = user;
     }
 
     @Override
