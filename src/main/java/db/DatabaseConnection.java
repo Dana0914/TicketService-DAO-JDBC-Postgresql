@@ -9,7 +9,12 @@ public class DatabaseConnection {
     public static final String USER = "postgres";
     public static final String PASSWORD = "postgres";
 
-    public Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL,USER,PASSWORD);
+    public Connection getConnection() {
+        try {
+            return DriverManager.getConnection(URL, USER, PASSWORD);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 }
