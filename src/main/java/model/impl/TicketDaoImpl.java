@@ -36,12 +36,16 @@ public class TicketDaoImpl implements TicketDao {
         ResultSet rs;
         String fetch = "SELECT * from ticket WHERE user_id=?";
         try (PreparedStatement pr = con.prepareStatement(fetch)) {
+            con.setAutoCommit(false);
             pr.setLong(1, userId);
             rs = pr.executeQuery();
             if (rs.next()) {
                 return instantiateTicket(rs);
             }
+            con.commit();
+            con.setAutoCommit(true);
         } catch (SQLException e) {
+            con.rollback();
             System.out.println(e.getMessage());
         }
         return null;
@@ -53,6 +57,7 @@ public class TicketDaoImpl implements TicketDao {
         int rowsInserted;
         String insert = "INSERT INTO ticket(user_id, ticket_type, creation_date) VALUES(?, CAST(? AS ticket_type), ?)";
         try (PreparedStatement statement = con.prepareStatement(insert)) {
+            con.setAutoCommit(false);
             statement.setLong(1, ticket.getUserId());
             statement.setString(2, ticket.getTicketType().name());
             statement.setDate(3, Date.valueOf(ticket.getCreationDate()));
@@ -60,7 +65,10 @@ public class TicketDaoImpl implements TicketDao {
             if (rowsInserted > 0) {
                 System.out.println("A new user was inserted successfully!");
             }
+            con.commit();
+            con.setAutoCommit(true);
         } catch (SQLException e) {
+            con.rollback();
             System.out.println(e.getMessage());
         }
     }
@@ -70,13 +78,17 @@ public class TicketDaoImpl implements TicketDao {
         int rowsUpdated;
         String update = "UPDATE ticket SET ticket_type=CAST(? AS ticket_type) WHERE id=?";
         try (PreparedStatement statement = con.prepareStatement(update)) {
+            con.setAutoCommit(false);
             statement.setString(1, ticket.getTicketType().name());
             statement.setLong(2, ticket.getId());
             rowsUpdated = statement.executeUpdate();
             if (rowsUpdated > 0) {
                 System.out.println("An existing user was updated successfully!");
             }
+            con.commit();
+            con.setAutoCommit(true);
         } catch (SQLException e) {
+            con.rollback();
             System.out.println(e.getMessage());
         }
     }
@@ -86,12 +98,16 @@ public class TicketDaoImpl implements TicketDao {
         int rowsDeleted;
         String remove = "DELETE FROM ticket WHERE id=?";
         try (PreparedStatement statement = con.prepareStatement(remove)) {
+            con.setAutoCommit(false);
             statement.setLong(1, id);
             rowsDeleted = statement.executeUpdate();
             if (rowsDeleted > 0) {
                 System.out.println("An existing user was deleted successfully!");
             }
+            con.commit();
+            con.setAutoCommit(true);
         } catch (SQLException e) {
+            con.rollback();
             System.out.println(e.getMessage());
         }
     }
